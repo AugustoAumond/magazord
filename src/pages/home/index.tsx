@@ -16,7 +16,7 @@ export default function Home(){
 
     const [selected, setSelected] = useState('repositories');
 
-    const [userName, setUserName] = useState('AugustoAumond');
+    const userName = 'AugustoAumond';
 
 
     useEffect(() => {
