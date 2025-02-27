@@ -7,6 +7,7 @@ interface RepositoriesProps {
     stargazers_count?: number
     forks_count?: number
     user?: string
+    getCommits: (e: string) => void
 }
 
 export default function Repositories({
@@ -15,10 +16,12 @@ export default function Repositories({
     full_name,
     language,
     stargazers_count,
-    user
+    user,
+    getCommits
 }: RepositoriesProps){
+
     return (
-    <div className="flex flex-col gap-2 w-[90%]">
+    <div onClick={(()=> getCommits(full_name ? full_name : ''))} className="flex flex-col gap-2 w-[90%] cursor-pointer">
         <h1 className="text-lg">{full_name?.replace(`${user}/`, '')}</h1>
 
         <p className="text-off-white">{description ? description : 'Nenhuma informação disponível para este repositório!'}</p>

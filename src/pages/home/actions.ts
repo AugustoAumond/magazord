@@ -2,7 +2,6 @@ import axios from "axios";
 
     export async function getStarred(
         setStarred: (e: number) => void,
-        starred: number, 
         selected: string,
         userName: string,
         setRepositories: (e: any) => void){
@@ -12,7 +11,7 @@ import axios from "axios";
             }})
         .then((response) => {
             setStarred(response.data.total_count);
-            console.log(starred)
+
             let repo = response.data.items;
 
             if (selected === 'starred'){
@@ -73,6 +72,28 @@ import axios from "axios";
             })
             .then((response) =>{
                 setRepositories(response.data.items);
+            })
+            .catch( (error) =>{
+                if (error.status === 403){
+
+                }
+            })
+        }
+
+        
+        export async function GetCommits(
+            userName: string,
+            setCommits: (e: any) => void,
+            repo?: string,
+        ) {
+            await axios(`https://api.github.com/repos/${userName}/${repo?.replace(`${userName}/`, '')}/commits`, {
+                headers: {
+                    'Authorization': `token ${import.meta.env.VITE_API_KEY}`
+                }
+            })
+            .then((response) =>{
+                console.log(response.data)
+                setCommits(response.data);
             })
             .catch( (error) =>{
                 if (error.status === 403){

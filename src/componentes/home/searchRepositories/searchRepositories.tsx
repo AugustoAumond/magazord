@@ -18,7 +18,7 @@ export default function SearchRepositorie({
                     <Search size={24} color="#989898"/>
                 </button>
                 
-                <input value={searchUser} onChange={(e: any) => setSearchUser(e.currentTarget.value)} className="flex flex-1 px-5 py-2 focus:outline-none" placeholder="Pesquisar Usuário" type="text" />
+                <input value={searchUser} onChange={(e: any) => setSearchUser(e.currentTarget.value)} className="flex flex-1 px-5 py-2 focus:outline-none" placeholder="Pesquisar Repositório" type="text" />
             </div>
             
             <div className="flex w-64 gap-6">
