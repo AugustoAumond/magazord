@@ -117,7 +117,6 @@ import axios from "axios";
             userName: string,
             setRepositories: (e: any) => void,
             type: string,
-            setSelectedLanguage: (e: string) => void,
         ) {
             await axios(`https://api.github.com/search/repositories?q=visibility:${type}+user:${userName}`, {
                 headers: {

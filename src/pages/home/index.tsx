@@ -6,33 +6,55 @@ import Repositories from "../../componentes/home/repositories/repositories";
 import SelectRepos from "../../componentes/home/selectRepos/selectRepos";
 import SearchRepositorie from "../../componentes/home/searchRepositories/searchRepositories";
 import { FilterRepositories, getAllRepositories, GetCommits, getStarred, getUser } from "./actions";
+import { useAllRepositories, useCommits, useUser } from "../../hooks/useFetch";
 
 export default function Home(){
-    const [datasUser, setDatasUser] = useState<any>();
     const [searchRepositorie, setSearchRepositorie] = useState<any>('');
     const [repositories, setRepositories] = useState<any>();
     const [starred, setStarred] = useState<number>(0);
+
+    const [nameRepo, setNameRepo] = useState('');
 
     const [selected, setSelected] = useState('repositories');
 
     const [openCommits, setOpenCommits] = useState(false);
 
-    const [commits, setCommits] = useState<any>([]);
-
     const userName = 'AugustoAumond';
 
-    useEffect(() => {
-        getUser(userName, setDatasUser);
+    const {data: user} = useUser(userName);
+    const {data: allRepositories} = useAllRepositories(userName);
+    const {data: commits} = useCommits(userName, nameRepo);
+    
 
-        getStarred(setStarred, selected, userName, setRepositories);
+ 
 
-        getAllRepositories(userName, selected, setRepositories);
+    // if (selected === 'starred'){
+    //     setStarred(data.total_count);
 
-    }, [selected]);
+    //     let repo = data.items;
+
+    //     if (selected === 'starred'){
+    //         setRepositories(repo);
+    //     }
+    // }
+       
+
+
+
+    // useEffect(() => {
+    //     getUser(userName, setDatasUser);
+
+    //     getStarred(setStarred, selected, userName, setRepositories);
+
+    //     getAllRepositories(userName, selected, setRepositories);
+
+       
+
+    // }, [selected]);
 
     function getCommits(value: string){
         setOpenCommits(true);
-        GetCommits( userName, setCommits, value);
+        setNameRepo(value);
     }
 
     async function SearchAction(){
@@ -43,7 +65,6 @@ export default function Home(){
 
     function CloseCommits(){
         setOpenCommits(false);
-        setCommits([]);
     }
     
     return (
@@ -66,7 +87,7 @@ export default function Home(){
                         </a>
                     </div>
                     
-                    {commits?.map((commit: any, index: number)=>(
+                    {commits ? commits.itens?.map((commit: any, index: number)=>(
                         <a className="hover:border-1 border-off-white-100 rounded-lg" href={commit.html_url} target="blank" key={index}>
                             <div className="p-2 gap-5">
                                 <div className="w-full flex justify-between items-center">
@@ -88,7 +109,7 @@ export default function Home(){
                                 </div>
                             </div>
                         </a>
-                    ))}
+                    )) : <>Carregando!</>}
                     <div>
 
                     </div>
@@ -99,17 +120,13 @@ export default function Home(){
 
             <div className="flex w-full max-w-[1080px] border-solid gap-16">
                 <User
-                name={datasUser?.name}
-                bio={datasUser?.bio}
-                blog={datasUser?.blog}
-                company={datasUser?.company}
-                location={datasUser?.location}
-                user={datasUser?.avatar_url}/>
+                userName={userName}
+               />
 
                 <div className="flex flex-col gap-14  w-[814px] ">
                     <SelectRepos
                     setSelected={setSelected}
-                    public_repos={datasUser?.public_repos}
+                    public_repos={user?.public_repos}
                     selected={selected}
                     starred={starred}/>
 
@@ -123,7 +140,7 @@ export default function Home(){
                     {(repositories !== undefined && repositories[0] === undefined) && <div className="text-lg text-off-white">Nenhum repositório encontrado</div>}
 
                     <div className="flex flex-col gap-12 w-full pb-10">
-                        {repositories?.map((repo: any, index: number) => (
+                        {allRepositories?.map((repo: any, index: number) => (
                         <div key={index}>
 
                             <Repositories

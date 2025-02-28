@@ -24,7 +24,7 @@ export default function SearchRepositorie({
 
     useEffect(()=>{
         if (getSelectedUse === 'Type' && selectedType !== 'Type'){
-            FilterTypeRepositories(userName, setRepositories, selectedType, setSelectedLanguage );
+            FilterTypeRepositories(userName, setRepositories, selectedType );
             setSelectedLanguage('Language')
             console.log(getSelectedUse)
         } 

@@ -1,31 +1,24 @@
 import { Building2, Instagram, Link, MapPin } from "lucide-react";
+import { useUser } from "../../../hooks/useFetch";
 
 interface UserProps {
-    user?: string 
-    name: string
-    company?: string
-    location?: string
-    blog?: string
-    bio?: string
+    userName: string
 }
 
 export default function User({
-    user,
-    name,
-    bio,
-    company,
-    location,
-    blog
+    userName
 }: UserProps){
+    const {data: user} = useUser(userName);
+
     return (
     <div className="flex flex-col items-center gap-6 max-w-[251px] p-5">
         <div className="w-4/5 overflow-hidden rounded-[100%]">
-            <img src={user} alt="" />
+            <img src={user?.avatar_url} alt="" />
         </div>
 
         <div className="w-full flex flex-col items-center">
-            <h1 className="text-name-profile text-2xl font-bold text-center">{name}</h1>
-            <p className="text-center text-off-white">{bio}</p>
+            <h1 className="text-name-profile text-2xl font-bold text-center">{user?.name}</h1>
+            <p className="text-center text-off-white">{user?.bio}</p>
         </div>
 
         <div className="w-full">
@@ -34,7 +27,7 @@ export default function User({
                     <Building2 className="shrink-0" size={16} color='#0587FF'/>
 
                     <div className="text-xs">
-                        {company}
+                        {user?.company}
                     </div>
                 </div>
 
@@ -42,7 +35,7 @@ export default function User({
                     <MapPin className="shrink-0" size={16} color='#0587FF'/>
 
                     <div className="text-xs">
-                        {location}
+                        {user?.location}
                         
                     </div>
                 </div>
@@ -51,8 +44,8 @@ export default function User({
                     <Link className="shrink-0" size={16} color='#0587FF'/>
 
                     <div className="text-xs">
-                        <a href={blog}>
-                            {blog}
+                        <a href={user?.blog}>
+                            {user?.blog}
                         </a>
                     </div>
                 </div>
