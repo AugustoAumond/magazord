@@ -18,7 +18,7 @@ export default function User({
     blog
 }: UserProps){
     return (
-        <div className="flex flex-col items-center gap-6 max-w-[251px]">
+    <div className="flex flex-col items-center gap-6 max-w-[251px] p-5">
         <div className="w-4/5 overflow-hidden rounded-[100%]">
             <img src={user} alt="" />
         </div>

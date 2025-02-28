@@ -7,7 +7,6 @@ import SelectRepos from "../../componentes/home/selectRepos/selectRepos";
 import SearchRepositorie from "../../componentes/home/searchRepositories/searchRepositories";
 import { FilterRepositories, getAllRepositories, GetCommits, getStarred, getUser } from "./actions";
 
-
 export default function Home(){
     const [datasUser, setDatasUser] = useState<any>();
     const [searchRepositorie, setSearchRepositorie] = useState<any>('');
@@ -21,7 +20,6 @@ export default function Home(){
     const [commits, setCommits] = useState<any>([]);
 
     const userName = 'AugustoAumond';
-
 
     useEffect(() => {
         getUser(userName, setDatasUser);
@@ -53,33 +51,43 @@ export default function Home(){
             <Header/>
 
             {openCommits && 
-            <div className="fixed w-full h-full flex items-center justify-center">
+            <div className="fixed w-full h-full flex items-center justify-center z-10">
                 <div onClick={() => CloseCommits()} className="absolute w-full h-full bg-white opacity-50">
 
                 </div>
 
                 <div className="flex flex-col z-10 border-1 border-off-white-100 w-[600px] h-[800px] bg-white m-auto rounded-lg p-5 overflow-y-auto gap-7 scrollbar-thin scrollbar-thumb-off-white ">
-                    <h1 className="text-2xl font-bold text-primary">Commits</h1>
+                    <div className="flex items-center justify-between">
+                        <h1 className="text-2xl font-bold text-primary">Commits</h1>
+
+                        <a href={''}>
+                            Repositório
+
+                        </a>
+                    </div>
+                    
                     {commits?.map((commit: any, index: number)=>(
-                        <div className="p-2 gap-5" key={index}>
-                            <div className="w-full flex justify-between items-center">
-                                <div className="flex gap-2">
-                                    <span className="font-bold">Autor:</span>{commit.commit.author.name}
+                        <a className="hover:border-1 border-off-white-100 rounded-lg" href={commit.html_url} target="blank" key={index}>
+                            <div className="p-2 gap-5">
+                                <div className="w-full flex justify-between items-center">
+                                    <div className="flex gap-2">
+                                        <span className="font-bold">Autor:</span>{commit.commit.author.name}
+                                    </div>
+
+                                    <div className="flex gap-2">
+                                        <span className="font-bold">Data:</span> {commit.commit.author.date}
+                                    </div>
                                 </div>
 
                                 <div className="flex gap-2">
-                                    <span className="font-bold">Data:</span> {commit.commit.author.date}
+                                    <span className="font-bold">Hash: </span>{commit.commit.tree.sha}
+                                </div>
+
+                                <div className="flex gap-2">
+                                    <span className="font-bold">Mensagem: </span> {commit.commit.message}
                                 </div>
                             </div>
-
-                            <div className="flex gap-2">
-                                <span className="font-bold">Hash: </span>{commit.commit.tree.sha}
-                            </div>
-
-                            <div className="flex gap-2">
-                                <span className="font-bold">Mensagem: </span> {commit.commit.message}
-                            </div>
-                        </div>
+                        </a>
                     ))}
                     <div>
 
@@ -106,6 +114,8 @@ export default function Home(){
                     starred={starred}/>
 
                     <SearchRepositorie
+                    userName={userName}
+                    setRepositories={setRepositories}
                     SearchAction={SearchAction}
                     setSearchUser={setSearchRepositorie}
                     searchUser={searchRepositorie}/>
@@ -115,6 +125,7 @@ export default function Home(){
                     <div className="flex flex-col gap-12 w-full pb-10">
                         {repositories?.map((repo: any, index: number) => (
                         <div key={index}>
+
                             <Repositories
                             description={repo?.description}
                             forks_count={repo?.forks_count}

@@ -21,6 +21,9 @@ import axios from "axios";
         .catch((error) => console.error("Erro ao buscar usuário:", error));
     }
 
+    export const optionsType: string[] = ['Type'];
+    export const optionsLanguage: string[] = ['Language'];
+
     export async function getAllRepositories(
         userName: string,
         selected: string,
@@ -32,6 +35,16 @@ import axios from "axios";
             }})
         .then((response) => {
             let repo = response.data;
+
+            repo.forEach((e: any) => {
+                if (!optionsLanguage.includes(e.language) && e.language){
+                    optionsLanguage.push(e.language);
+                }
+
+                if (!optionsType.includes(e.visibility) && e.visibility){
+                    optionsType.push(e.visibility);
+                }
+            });
 
             if (selected === 'repositories'){
                 setRepositories(repo);
@@ -50,7 +63,6 @@ import axios from "axios";
                 }
             })
             .then( (response) => {
-                console.log(response.data)
                 setDatasUser(response.data);
             })
             .catch( (error) =>{
@@ -63,7 +75,7 @@ import axios from "axios";
         export async function FilterRepositories(
             searchRepo: string,
             userName: string,
-            setRepositories: (e: any) => void
+            setRepositories: (e: any) => void,
         ) {
             await axios(`https://api.github.com/search/repositories?q=${searchRepo}+user:${userName}`, {
                 headers: {
@@ -80,12 +92,58 @@ import axios from "axios";
             })
         }
 
+        export async function FilterLanguageRepositories(
+            userName: string,
+            setRepositories: (e: any) => void,
+            language: string,
+        ) {
+            await axios(`https://api.github.com/search/repositories?q=language:${language}+user:${userName}`, {
+                headers: {
+                    'Authorization': `token ${import.meta.env.VITE_API_KEY}`
+                }
+            })
+            .then((response) =>{
+                console.log(response)
+                setRepositories(response.data.items);
+            })
+            .catch( (error) =>{
+                if (error.status === 403){
+
+                }
+            })
+        }
+
+        export async function FilterTypeRepositories(
+            userName: string,
+            setRepositories: (e: any) => void,
+            type: string,
+            setSelectedLanguage: (e: string) => void,
+        ) {
+            await axios(`https://api.github.com/search/repositories?q=visibility:${type}+user:${userName}`, {
+                headers: {
+                    'Authorization': `token ${import.meta.env.VITE_API_KEY}`
+                }
+            })
+            .then((response) =>{
+                console.log(response)
+       
+                setRepositories(response.data.items);
+            })
+            .catch( (error) =>{
+                if (error.status === 403){
+
+                }
+            })
+        }
+
         
         export async function GetCommits(
             userName: string,
             setCommits: (e: any) => void,
             repo?: string,
         ) {
+
+
             await axios(`https://api.github.com/repos/${userName}/${repo?.replace(`${userName}/`, '')}/commits`, {
                 headers: {
                     'Authorization': `token ${import.meta.env.VITE_API_KEY}`
