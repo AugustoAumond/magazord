@@ -43,7 +43,7 @@ const CustomSelect = ({
 
       {/* Opções */}
       {isOpen && (
-        <ul className="absolute flex flex-col right-0 w-[300%] mt-1 gap-[2px] p-2 px-4 text-white rounded-lg  text-sm max-lg:text-xs cursor-pointer z-50">
+        <ul className="absolute flex flex-col right-0 w-[300%] mt-1 gap-[2px] p-2 px-4 text-white rounded-lg  text-sm max-lg:text-xs cursor-pointer z-50 max-md:w-[150%]">
           {options.map((option, index) => (
             <li
               key={index}

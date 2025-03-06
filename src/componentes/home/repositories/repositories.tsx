@@ -21,7 +21,7 @@ export default function Repositories({
 }: RepositoriesProps){
 
     return (
-    <div onClick={(()=> getCommits(full_name ? full_name : ''))} className="flex flex-col gap-2 w-[90%] cursor-pointer rounded-lg p-5 hover:border-1 border-off-white-100">
+    <div onClick={(()=> getCommits(full_name ? full_name : ''))} className="flex flex-col gap-2 w-full cursor-pointer rounded-lg p-5 hover:border-1 border-off-white-100 max-md:bg-off-white-bgNumber">
         <h1 className="text-lg">{full_name?.replace(`${user}/`, '')}</h1>
 
         <p className="text-off-white">{description ? description : 'Nenhuma informação disponível para este repositório!'}</p>

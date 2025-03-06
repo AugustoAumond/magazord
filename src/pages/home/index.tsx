@@ -62,7 +62,7 @@ export default function Home(){
                 userName={userName}/>
             }
 
-            <div className="flex w-full max-w-[1080px] border-solid gap-16 max-md:flex-col max-md:items-center">
+            <div className="flex w-full max-w-[1080px] border-solid gap-16 max-md:flex-col max-md:items-center max-md:gap-8">
                 <User
                 userName={userName}
                 />

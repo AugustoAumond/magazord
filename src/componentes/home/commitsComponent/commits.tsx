@@ -19,19 +19,22 @@ export default function CommitsComponent({
 
             </div>
 
-            <div className="flex flex-col z-10 border-1 border-off-white-100 w-[600px] h-[800px]  max-h-[90%] bg-white m-auto rounded-lg p-5 overflow-y-auto gap-7 scrollbar-thin scrollbar-thumb-off-white ">
+            <div className="flex flex-col z-10 border-1 border-off-white-100 w-[90%] max-w-[600px] h-[800px]  max-h-[90%] bg-white m-auto rounded-lg p-5 overflow-y-auto gap-7 scrollbar-thin scrollbar-thumb-off-white ">
                 <div className="flex items-center justify-between">
                     <h1 className="text-2xl font-bold text-primary">Commits</h1>
 
-                    <a href={''}>
+                    <a className="underline" href={commits && commits[0]?.html_url.split("/commit")[0]} target="blank">
                         Repositório
-
                     </a>
+                </div>
+
+                <div>
+                    <h2 className="text-lg font-bold">Projeto: <span className="font-normal"> {nameRepo.replace(`${userName}/`, '')} </span> </h2>
                 </div>
                 
                 { commits?.map((commit: any, index: number)=>(
-                    <a className="hover:border-1 border-off-white-100 rounded-lg" href={commit.html_url} target="blank" key={index}>
-                        <div className="p-2 gap-5">
+                    <a className="hover:border-1 border-off-white-100 rounded-lg max-md:bg-off-white-bgNumber" href={commit.html_url} target="blank" key={index}>
+                        <div className="flex flex-col p-2 max-md:text-sm">
                             <div className="w-full h-full flex justify-between items-center">
                                 <div className="flex gap-2">
                                     <span className="font-bold">Autor:</span>{commit.commit.author.name}
@@ -42,7 +45,7 @@ export default function CommitsComponent({
                                 </div>
                             </div>
 
-                            <div className="flex gap-2">
+                            <div className="flex gap-2 truncate">
                                 <span className="font-bold">Hash: </span>{commit.commit.tree.sha}
                             </div>
 

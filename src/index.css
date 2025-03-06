@@ -1,5 +1,6 @@
 @import "tailwindcss";
 
+
 #root {
   width: 100%;
   max-width: unset !important;
@@ -26,5 +27,7 @@ body {
   --color-off-white-input: #F4F4F4;
 
   --color-underline: #FD8C73;
+
+  --color-dark-bg: #262c36;
   /* ... */
 }

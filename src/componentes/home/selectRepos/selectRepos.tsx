@@ -37,7 +37,7 @@ export default function SelectRepos({
 
 
     return (
-        <div className="flex gap-16 max-md:justify-evenly">
+        <div className="flex gap-16 max-md:gap-[unset] max-md:justify-evenly">
             <button onClick={() => setAllRepo()} className={`flex  h-16 items-center gap-4 ${selected === 'repositories' ? 'border-underline border-b-2' : ''} p-2 max-w-50 cursor-pointer`}>
                 <BookMarked size={24}  color={selected === 'repositories' ? 'black' : '#DBDBDB'}/>
 
