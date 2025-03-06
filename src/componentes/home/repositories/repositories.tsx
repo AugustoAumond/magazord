@@ -32,7 +32,7 @@ export default function Repositories({
 
         <div className="flex gap-8">
             <div className="flex items-center gap-2.5">
-                <Star size={16} color="black"/>
+                <Star fill="black" size={16} color="black"/>
 
                 {stargazers_count}
             </div>

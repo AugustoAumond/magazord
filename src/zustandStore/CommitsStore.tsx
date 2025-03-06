@@ -1,6 +1,11 @@
 import {create} from 'zustand';
 
-export const commitsStore = create<any>((set) => ({
-  name: [],
-  setName: (name: any) => set({ name: name }),  
+interface RepositoriesStoreProps {
+  repositories: any[]
+  setRepositories: (e: any) => void
+}
+
+export const RepositorieStore = create<RepositoriesStoreProps>((set) => ({
+  repositories: [],
+  setRepositories: (newLists: any) => set(() => ( {repositories: newLists} )),  
 }))
