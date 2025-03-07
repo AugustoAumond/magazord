@@ -1,7 +1,7 @@
 import { BookMarked, Star } from "lucide-react"
 import { useEffect, useState } from "react"
 import { useAllRepositories, useUserStarred } from "../../../hooks/useFetch"
-import { RepositorieStore } from "../../../zustandStore/CommitsStore"
+import { RepositorieStore } from "../../../zustandStore/RepositorioStore"
 
 interface SelectReposProps{
     userName: string

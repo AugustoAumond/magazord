@@ -1,6 +1,6 @@
 import { Building2, ChevronDown, ChevronUp, Instagram, Link, MapPin } from "lucide-react";
 import { useUser } from "../../../hooks/useFetch";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 interface UserProps {
     userName: string
@@ -12,14 +12,14 @@ export default function User({
     const {data: user} = useUser(userName);
     const [open, setOpen] = useState(false);
 
-    useEffect(()=>{
-        console.log(document.body.clientWidth)
+
+    window.addEventListener('resize',(()=>{
         if (document.body.clientWidth > 768){
             setOpen(true);
-        } else {
+        } else if (document.body.clientWidth < 768 && document.body.clientWidth > 668) {
             setOpen(false);
         }
-    }, [])
+    }))
 
     return (
     <div className="flex flex-col w-full items-center gap-6 min-w-[185px] max-w-[251px] p-5 max-md:max-w-full">

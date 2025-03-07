@@ -34,13 +34,13 @@ export default function CommitsComponent({
                 
                 { commits?.map((commit: any, index: number)=>(
                     <a className="hover:border-1 border-off-white-100 rounded-lg max-md:bg-off-white-bgNumber" href={commit.html_url} target="blank" key={index}>
-                        <div className="flex flex-col p-2 max-md:text-sm">
+                        <div className="flex flex-col p-2 max-md:text-xs">
                             <div className="w-full h-full flex justify-between items-center">
-                                <div className="flex gap-2">
+                                <div className="flex gap-2 truncate w-[47%]">
                                     <span className="font-bold">Autor:</span>{commit.commit.author.name}
                                 </div>
 
-                                <div className="flex gap-2">
+                                <div className="flex gap-2 truncate  w-[47%]">
                                     <span className="font-bold">Data:</span> {commit.commit.author.date}
                                 </div>
                             </div>
@@ -50,7 +50,7 @@ export default function CommitsComponent({
                             </div>
 
                             <div className="flex gap-2">
-                                <span className="font-bold">Mensagem: </span> {commit.commit.message}
+                                <strong >Mensagem: </strong> {commit.commit.message}
                             </div>
                         </div> 
                     </a>

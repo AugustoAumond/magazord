@@ -2,8 +2,8 @@ import { Search } from "lucide-react";
 import CustomSelect from "../../../library/select/select";
 import { useState } from "react";
 import { useAllRepositories, } from "../../../hooks/useFetch";
-import { RepositorieStore } from "../../../zustandStore/CommitsStore";
-import { optionsType, optionsLanguage } from "../../../pages/home";
+import { RepositorieStore } from "../../../zustandStore/RepositorioStore";
+import { optionsType, optionsLanguage } from "../../../pages/profile";
 
 interface SearchComponentProps{
     userName: string

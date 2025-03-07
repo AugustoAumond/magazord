@@ -7,7 +7,8 @@ interface RepositoriesProps {
     stargazers_count?: number
     forks_count?: number
     user?: string
-    getCommits: (e: string) => void
+    getCommits?: (e: string) => void
+    topics?: any[]
 }
 
 export default function Repositories({
@@ -17,17 +18,28 @@ export default function Repositories({
     language,
     stargazers_count,
     user,
-    getCommits
+    getCommits,
+    topics
 }: RepositoriesProps){
 
     return (
-    <div onClick={(()=> getCommits(full_name ? full_name : ''))} className="flex flex-col gap-2 w-full cursor-pointer rounded-lg p-5 hover:border-1 border-off-white-100 max-md:bg-off-white-bgNumber">
+    <div onClick={(()=> getCommits && getCommits(full_name ? full_name : ''))} className="flex flex-col gap-2 w-full cursor-pointer rounded-lg p-5 hover:border-1 border-off-white-100 max-md:bg-off-white-bgNumber">
         <h1 className="text-lg">{full_name?.replace(`${user}/`, '')}</h1>
 
         <p className="text-off-white">{description ? description : 'Nenhuma informação disponível para este repositório!'}</p>
 
-        <div>
+        <div className="flex flex-col gap-2">
             <h1 className="text-sm text-off-white">Languages: <span >{language ? language : 'Nenhuma linguagem disponível!'}</span></h1>
+
+            {topics &&
+            <h2 className="flex gap-2 text-off-white flex-wrap">Stack: 
+                {topics.map((item, index) => (
+                    <div className="flex" key={index}>
+                        {item}
+                    </div>
+                ))}
+            </h2>
+            }
         </div>
 
         <div className="flex gap-8">

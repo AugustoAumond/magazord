@@ -34,7 +34,7 @@ const CustomSelect = ({
       {/* Botão do Select */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex w-full items-center justify-center gap-2 p-2 px-4 rounded-lg  text-sm cursor-pointer hover:border-[#0587FF] bg-gradient-to-r from-[#0056A6] to-[#0587FF] text-white max-lg:text-xs"
+        className="flex w-full items-center justify-center gap-2 p-2 px-4 rounded-2xl  text-sm cursor-pointer hover:border-[#0587FF] bg-gradient-to-r from-[#0056A6] to-[#0587FF] text-white max-lg:text-xs"
       >
         <ChevronDown className={`w-4 h-4 transition-transform ${!isOpen ? "rotate-180" : ""}`}
         />
