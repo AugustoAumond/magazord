@@ -9,13 +9,11 @@ A aplicação pode ser aprimorada com a implementação de paginação, o que aj
 
 
 INSTRUÇÕES:
-Para rodar a aplicação é necessário roda o "npm i" para baixar as dependências utilizadas no projeto, 
-
-ADICIONANDO TOKEN A APLICAÇÃO
 Comece criando uma pasta para o projeto e, em seguida, clone o repositório usando o comando: "git clone https://github.com/AugustoAumond/magazord.git".
 
-Para rodar a aplicação, primeiro instale as dependências do projeto com o comando: npm i.
+Para rodar a aplicação, primeiro instale as dependências do projeto executando o comando "npm i".
 
+ADICIONANDO TOKEN A APLICAÇÃO
 Na raiz do projeto clonado, crie um arquivo .env para armazenar variáveis de ambiente.
 
 Acesse o GitHub e faça login com sua conta.
@@ -32,9 +30,9 @@ Volte até o arquivo .env e crie uma variável da seguinte maneira => VITE_API_K
 
 
 COMO FUNCIONA A APLICAÇÃO:
-A aplicação começa com uma página de repositórios populares, onde o usuário pode escolher a linguagem de programação desejada (incluí apenas algumas opções que considero mais relevantes no mercado). Também há um paginador para navegar entre os repositórios subsequentes.
+A aplicação começa com uma página de repositórios populares, onde o usuário pode escolher a linguagem de programação desejada (incluí apenas algumas opções que considero mais relevantes no mercado). Também há um paginator para navegar entre os repositórios subsequentes.
 
-No Header, há um ícone que permite a busca por Usuários. Ao clicar no ícone, o usuário é redirecionado para a página de busca de perfis, que exibe inicialmente os usuários mais populares da plataforma, garantindo que a página não fique vazia enquanto o filtro está disponível.
+No Header, há um ícone que permite navega para a página de busca por Usuários. Ao clicar no ícone, o usuário é redirecionado para a página de busca de perfis, que exibe inicialmente os usuários mais populares da plataforma, garantindo que a página não fique vazia enquanto o filtro ainda não foi utilizado.
 
 Ao acionar o filtro e clicar no botão de pesquisa, a aplicação busca todos os usuários que correspondem aos critérios da pesquisa, exibindo os 50 primeiros resultados.
 
