@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { RepositorieStore } from "../../zustandStore/RepositorioStore";
+import { RepositorieStore } from "../../store/zustandStore/RepositorioStore";
 import { useAllRepositories, useUser } from "../../hooks/useFetch";
 
 import Header from "../../componentes/globals/header/header";

@@ -1,6 +1,6 @@
 import { ChangeEvent, useEffect, useState } from "react";
 import { useMostPopularUsers, useSearchUser } from "../../hooks/useFetch";
-import { RepositorieStore } from "../../zustandStore/RepositorioStore";
+import { RepositorieStore } from "../../store/zustandStore/RepositorioStore";
 
 import Header from "../../componentes/globals/header/header";
 import Loading from "../../componentes/globals/loading/loading";
@@ -9,6 +9,7 @@ import UserContainer from "../../componentes/searchUser/userContainer/userContai
 import {  Search } from "lucide-react";
 import { SearchUsers } from "./actions";
 import { UserProps } from "../../interfaces/interfaces";
+
 
 export default function SearchUser(){
     const {setUserName} = RepositorieStore();

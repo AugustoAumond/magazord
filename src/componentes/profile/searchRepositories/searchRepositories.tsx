@@ -2,7 +2,7 @@ import { Search } from "lucide-react";
 import CustomSelect from "../../../library/select/select";
 import { ChangeEvent, useState } from "react";
 import { useAllRepositories, } from "../../../hooks/useFetch";
-import { RepositorieStore } from "../../../zustandStore/RepositorioStore";
+import { RepositorieStore } from "../../../store/zustandStore/RepositorioStore";
 import { AllRepositoriesProps } from "../../../interfaces/interfaces";
 
 interface SearchComponentProps{
