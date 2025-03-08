@@ -1,93 +1,89 @@
-import { Book, ChevronLeft, ChevronRight, Search, UserCheck, Users } from "lucide-react";
-import Header from "../../componentes/globals/header/header";
-import { useState } from "react";
-import { useSearchUser } from "../../hooks/useFetch";
-import { Link } from "react-router-dom";
+import { ChangeEvent, useEffect, useState } from "react";
+import { useMostPopularUsers, useSearchUser } from "../../hooks/useFetch";
 import { RepositorieStore } from "../../zustandStore/RepositorioStore";
 
-export default function SearchUser(){
-    const [pageNumber, setPageNumber] = useState(1);
-    const [search, setSearch] = useState('');
+import Header from "../../componentes/globals/header/header";
+import Loading from "../../componentes/globals/loading/loading";
+import UserContainer from "../../componentes/searchUser/userContainer/userContainer";
 
+import {  Search } from "lucide-react";
+import { SearchUsers } from "./actions";
+import { UserProps } from "../../interfaces/interfaces";
+
+export default function SearchUser(){
     const {setUserName} = RepositorieStore();
 
+    const [searchText, setSearchText] = useState('');
+    const [search, setSearch] = useState('');
 
-    const {data: searchUser} = useSearchUser(search, pageNumber);
+    //Validação do loading e da busca inicial;
+    const [ validation, setValidation] = useState(false);
+    const [loading, setLoading] = useState(true);
+    const [count, setCount] = useState(0);
+
+    const [users, setUsers] = useState<UserProps[]>();
+
+ 
+    const {data: searchUser} = useSearchUser(search);
+    const {data: popUsers} = useMostPopularUsers();
+
+    useEffect(()=>{
+        setTimeout(()=>{
+            SearchUsers(popUsers, setLoading, setCount, setUsers)
+        }, 1000)
+        
+    }, [count])
+
+    useEffect(()=>{
+        const timeout = setTimeout(() => {
+            setSearch(searchText);
+            setValidation(true);
+        }, 400); 
     
+        return () => {
+            clearTimeout(timeout);
+        };
+    }, [searchText])
+
+    function setSearchEnter(value: React.KeyboardEvent<HTMLInputElement>){
+        if (value.key === 'Enter') {
+            SearchUsers(searchUser, setLoading, setCount, setUsers);
+        }
+    };
 
     return (
-        <div className="flex items-centerflex flex-col items-center w-full gap-20">
+        <div className="flex items-centerflex flex-col items-center w-full gap-10 pb-10">
             <Header page="Buscar Usuário"/>
 
-            <div className="flex flex-col gap-5 w-full max-w-[1080px] p-10">
+            <div className="flex flex-col gap-5 w-full max-w-[1080px] p-10 max-[400px]:p-5">
                 <div className="flex flex-col  w-full justify-between gap-5">
                     <div className="font-bold text-lg">
                         BUSCAR USUÁRIO
                     </div>
 
                     <div className="flex w-full gap-10 text-off-white justify-between">
-                        <div className="flex items-center w-[80%] gap-2">
-                            <Search/>
-                            <input value={search} onChange={(e: any) => setSearch(e.currentTarget.value)} placeholder="Buscar usuário" className="p-2 flex-1 border-b-2" type="text" />
-                        </div>
+                        <div className="flex items-center w-full gap-5 max-md:w-full">
+                            <Search className="max-md:hidden"/>
 
+                            <input value={searchText} onKeyDown={setSearchEnter} onChange={(e: ChangeEvent<HTMLInputElement>) => setSearchText(e.currentTarget.value)} placeholder="Buscar usuário" className="p-2 flex flex-1 border-0 border-b-2" type="text" />
 
-                        <div className="flex items-center gap-3 p-1.5 b-2 bg-[#0587FF] rounded-2xl">
-                            <ChevronLeft  onClick={() => setPageNumber(pageNumber - 1)} color="white" className="cursor-pointer"/>
-                            <span className="text-white cursor-pointer">{pageNumber}</span>
-                            <ChevronRight onClick={() => setPageNumber(pageNumber + 1)} color="white" className="cursor-pointer"/>
+                            <button disabled={!validation} onClick={() => SearchUsers(searchUser, setLoading, setCount, setUsers)} className="p-2 px-4 text-sm bg-gradient-to-r from-[#0056A6] to-[#0587FF] rounded-2xl text-white hover:opacity-80 cursor-pointer min-w-[125px] ">
+                                Buscar Usuário
+                            </button>
                         </div>
                     </div>
                 </div>
             </div>
 
-            {searchUser?.items.map((user: any, index: number)=>(
-                <Link to={'/profile'} onClick={()=> setUserName(user.login)} className="flex items-center w-[90%] max-w-[1080px] gap-5 p-5 hover:border-2 rounded-lg" key={index}>
-                    <div className="w-32 h-32">
-                        <img className="rounded-[50%]" src={user.avatar_url}/>
-                    </div>
-                    
-                    <div className="flex flex-1 justify-between">
-                        <div>
-                            <div>
-                                Nome: <span className="text-off-white">{user.name}</span>
-                            </div>
-
-                            <div>
-                                Localização: <span className="text-off-white">{user.location}</span>
-                            </div>
-
-                            <div>
-                                Bio: <span className="text-off-white">{user.bio}</span>
-                            </div>
-
-                            <div>
-                                Empresa: <span className="text-off-white">{user.company ? user.company : 'Nenhum dado encontrado!'}</span>
-                            </div>
-
-                            <div>
-                                Email: <span className="text-off-white">{user.email ? user.email : 'Nenhum email encontrado!'}</span> 
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="flex flex-col justify-center gap-5">
-                        <div className="flex gap-2">
-                            <Users/> {user.followers}
-                        </div>
-
-                        <div className="flex gap-2">
-                            <UserCheck/> {user.following}
-                        </div>
-
-                        <div className="flex gap-2">
-                            <Book/> {user.public_repos}
-                        </div>
-                    </div>
-                    
-                    
-                </Link>
-            ))}
+            {(users && !loading )? users?.map((user: UserProps, index: number)=>(
+                <div className="flex items-center w-full max-w-[1080px] gap-5 p-10 border-off-white rounded-lg" key={index}>
+                    <UserContainer 
+                    user={user} 
+                    setUserName={setUserName}
+                    />
+                </div>
+              
+            )) : (loading && <Loading/>)}
         </div>
     )
 }

@@ -1,6 +1,7 @@
-import { Building2, ChevronDown, ChevronUp, Instagram, Link, MapPin } from "lucide-react";
-import { useUser } from "../../../hooks/useFetch";
 import { useState } from "react";
+import { useUser } from "../../../hooks/useFetch";
+
+import { Building2, ChevronDown, ChevronUp, Instagram, Link, MapPin } from "lucide-react";
 
 interface UserProps {
     userName: string
@@ -19,7 +20,7 @@ export default function User({
         } else if (document.body.clientWidth < 768 && document.body.clientWidth > 668) {
             setOpen(false);
         }
-    }))
+    }));
 
     return (
     <div className="flex flex-col w-full items-center gap-6 min-w-[185px] max-w-[251px] p-5 max-md:max-w-full">

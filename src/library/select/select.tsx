@@ -5,7 +5,7 @@ interface CustomSelectProps {
     options: string[]
     selected: string
     setSelected: (e: string) => void
-    filter: (e: any) => void
+    filter: (e: string) => void
 }
 
 const CustomSelect = ({

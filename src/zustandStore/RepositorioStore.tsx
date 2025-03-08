@@ -1,8 +1,9 @@
 import {create} from 'zustand';
+import { AllRepositoriesProps } from '../interfaces/interfaces';
 
 interface RepositoriesStoreProps {
-  repositories: any[]
-  setRepositories: (e: any) => void
+  repositories: AllRepositoriesProps[]
+  setRepositories: (e: AllRepositoriesProps) => void
   userName: string
   setUserName: (e: string) => void
 }

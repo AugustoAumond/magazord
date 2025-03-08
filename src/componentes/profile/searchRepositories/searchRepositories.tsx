@@ -1,9 +1,10 @@
 import { Search } from "lucide-react";
 import CustomSelect from "../../../library/select/select";
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { useAllRepositories, } from "../../../hooks/useFetch";
 import { RepositorieStore } from "../../../zustandStore/RepositorioStore";
 import { optionsType, optionsLanguage } from "../../../pages/profile";
+import { AllRepositoriesProps } from "../../../interfaces/interfaces";
 
 interface SearchComponentProps{
     userName: string
@@ -21,12 +22,11 @@ export default function SearchRepositorie({
 
     const {data: allRepositories} = useAllRepositories(userName);
 
-
-    function FilterLanguage(value: any){
+    function FilterLanguage(value: string){
         let items: any = [];
             setSelectedType('Type');
             setSearch('');
-            allRepositories?.forEach((item: any) => {
+            allRepositories?.forEach((item: AllRepositoriesProps) => {
                 if (item.language === value) {
                     items.push(item);
                 };
@@ -36,9 +36,9 @@ export default function SearchRepositorie({
             
     }
 
-    function FilterType(value: any){
+    function FilterType(value: string){
         let items: any = [];
-        allRepositories?.forEach((item: any) => {
+        allRepositories?.forEach((item: AllRepositoriesProps) => {
             setSelectedLanguage('Language');
             setSearch('');
             if (item.visibility === value) {
@@ -56,7 +56,7 @@ export default function SearchRepositorie({
 
     function SearchAction (){
         let items: any = [];
-        allRepositories.forEach((item: any)=>{
+        allRepositories.forEach((item: AllRepositoriesProps)=>{
             if (item.full_name?.replace(`${userName}/`, '').toUpperCase().includes(search.toUpperCase())){
                 items.push(item);
             }
@@ -75,7 +75,7 @@ export default function SearchRepositorie({
                     <Search size={24} color="#989898"/>
                 </button>
                 
-                <input value={search} onKeyDown={setSearchEnter} onChange={(e: any) => setSearch(e.currentTarget.value)} className="flex flex-1 w-full px-5 py-2 focus:outline-none max-lg: text-xs" placeholder="Pesquisar Repositório" type="text" />
+                <input value={search} onKeyDown={setSearchEnter} onChange={(e: ChangeEvent<HTMLInputElement>) => setSearch(e.currentTarget.value)} className="flex flex-1 w-full px-5 py-2 focus:outline-none max-lg: text-xs" placeholder="Pesquisar Repositório" type="text" />
             </div>
             
             <div className="flex w-64 gap-6 max-md:w-[60%] max-md:justify-center">

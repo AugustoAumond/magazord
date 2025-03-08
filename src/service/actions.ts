@@ -8,11 +8,12 @@ const fetcher = (url: string) =>
   axios.get(`${API_URL}${url}`, { headers: { Authorization: `token ${token}` } }).then((res) => res.data);
 
 export const getUser = (userName: string) => `/users/${userName}`;
-export const getSearchUser = (search: string, numberPage: number) => `/search/users?q=${search}&per_page=30&page=${numberPage}`
+export const getSearchUser = (search: string) => `/search/users?q=${search}&per_page=50&page=1`
 export const getUserStarred = (userName: string) => `/search/repositories?q=user:${userName}+stars:>0&sort=stars&order=desc`;
 export const getAllRepositories = (userName: string) => `/users/${userName}/repos?per_page=500`;
 export const getFilterRepositories = (searchRepo: string, userName: string) => `/search/repositories?q=${searchRepo}+user:${userName}`;
 export const getCommits = (userName: string, repo: string, ) => `/repos/${userName}/${repo?.replace(`${userName}/`, '')}/commits`;
 export const getPopular = (lenguage: string, numberPage: number, ) => `/search/repositories?q=language:${lenguage}&sort=stars&order=desc&page=${numberPage}&per_page=50`;
+export const getPopularUsers = () => '/search/users?q=followers:>10000&sort=followers&order=desc'
 
 export default fetcher;

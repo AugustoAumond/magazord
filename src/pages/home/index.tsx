@@ -1,9 +1,15 @@
-import { useEffect, useState } from "react";
-import Header from "../../componentes/globals/header/header";
-import CustomSelect from "../../library/select/select";
-import { useMostPopular } from "../../hooks/useFetch";
+import { useState } from "react";
 import Repositories from "../../componentes/globals/repositories/repositories";
+import { useMostPopular } from "../../hooks/useFetch";
+
+import Header from "../../componentes/globals/header/header";
+
+import CustomSelect from "../../library/select/select";
+import Loading from "../../componentes/globals/loading/loading";
+
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { AllRepositoriesProps } from "../../interfaces/interfaces";
+
 
 export default function Home(){
     const [select, setSelect] = useState('Javascript');
@@ -19,17 +25,13 @@ export default function Home(){
         'SQL'
     ]
 
-    useEffect(()=>{
-        console.log(popular)
-    })
-
     return (
-        <div className="flex items-centerflex flex-col items-center w-full gap-20">
+        <div className="flex flex-col items-center w-full gap-10">
             <Header page="Homepage"/>
 
 
             <div className="flex flex-col gap-5 w-full max-w-[1080px] p-10">
-                <div className="flex items-center w-full justify-between">
+                <div className="flex items-center w-full justify-between max-[500px]:flex-col gap-5">
                     <div className="font-bold text-lg">
                         REPOSITÓRIOS MAIS POPULARES
                     </div>
@@ -37,7 +39,7 @@ export default function Home(){
                     <div className="flex items-center gap-5">
                         <CustomSelect options={obj} selected={select} filter={() => console.log('asd')} setSelected={setSelect}/>
 
-                        <div className="flex items-center gap-3 p-1.5 b-2 bg-[#0587FF] rounded-2xl">
+                        <div className="flex items-center gap-3 p-1.5 b-2 bg-gradient-to-r from-[#0056A6] to-[#0587FF] rounded-2xl">
                             <ChevronLeft  onClick={() => setPageNumber(pageNumber - 1)} color="white" className="cursor-pointer"/>
                             <span className="text-white cursor-pointer">{pageNumber}</span>
                             <ChevronRight onClick={() => setPageNumber(pageNumber + 1)} color="white" className="cursor-pointer"/>
@@ -46,7 +48,7 @@ export default function Home(){
                     </div>
                 </div>
 
-                {popular ? popular?.items.map((repo : any)=>(
+                {popular ? popular?.items.map((repo : AllRepositoriesProps)=>(
                     <a href={repo.git_url.replace('git', 'https')} target="blank">
                         <Repositories
                         description={repo?.description}
@@ -58,9 +60,8 @@ export default function Home(){
                         />
                     </a>
                 )): 
-                
-                <div> Carregando ...</div>
-                    
+
+                    <Loading/>
                 }
             </div>
         

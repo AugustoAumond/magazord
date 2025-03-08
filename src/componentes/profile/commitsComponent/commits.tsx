@@ -6,12 +6,26 @@ interface CommitsComponentProps {
     CloseCommits: () => void
 }
 
+interface CommitsProps {
+    html_url: string, 
+    commit: {
+        author: {
+            name: string,
+            date: string
+        },
+        tree: {
+            sha: string
+        },
+        message: string
+    }
+}
+
 export default function CommitsComponent({
     CloseCommits,
     nameRepo,
     userName
 }: CommitsComponentProps){
-        const {data: commits} = useCommits(userName, nameRepo);
+    const {data: commits} = useCommits(userName, nameRepo);
 
     return (
         <div className="fixed w-full h-full flex items-center justify-center z-10">
@@ -32,7 +46,7 @@ export default function CommitsComponent({
                     <h2 className="text-lg font-bold">Projeto: <span className="font-normal"> {nameRepo.replace(`${userName}/`, '')} </span> </h2>
                 </div>
                 
-                { commits?.map((commit: any, index: number)=>(
+                { commits?.map((commit: CommitsProps, index: number)=>(
                     <a className="hover:border-1 border-off-white-100 rounded-lg max-md:bg-off-white-bgNumber" href={commit.html_url} target="blank" key={index}>
                         <div className="flex flex-col p-2 max-md:text-xs">
                             <div className="w-full h-full flex justify-between items-center">

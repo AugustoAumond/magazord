@@ -1,13 +1,15 @@
 import { useEffect, useState } from "react";
-import Header from "../../componentes/globals/header/header";
+import { RepositorieStore } from "../../zustandStore/RepositorioStore";
+import { useAllRepositories, useUser } from "../../hooks/useFetch";
 
+import Header from "../../componentes/globals/header/header";
 import User from "../../componentes/profile/user/user";
-import Repositories from "../../componentes/globals/repositories/repositories";
 import SelectRepos from "../../componentes/profile/selectRepos/selectRepos";
 import SearchRepositorie from "../../componentes/profile/searchRepositories/searchRepositories";
-import { useAllRepositories, useUser } from "../../hooks/useFetch";
-import { RepositorieStore } from "../../zustandStore/RepositorioStore";
+import Repositories from "../../componentes/globals/repositories/repositories";
 import CommitsComponent from "../../componentes/profile/commitsComponent/commits";
+import Loading from "../../componentes/globals/loading/loading";
+import { AllRepositoriesProps } from "../../interfaces/interfaces";
 
 export const optionsType: string[] = ['Type'];
 export const optionsLanguage: string[] = ['Language'];
@@ -26,7 +28,7 @@ export default function Profile(){
     useEffect(() => {
         setRepositories(allRepositories);     
         
-        allRepositories?.forEach((e: any) => {
+        allRepositories?.forEach((e: AllRepositoriesProps) => {
             if (!optionsLanguage.includes(e.language) && e.language){
                 optionsLanguage.push(e.language);
                 console.log(e.language)
@@ -78,7 +80,7 @@ export default function Profile(){
                     {(repositories !== undefined && repositories[0] === undefined) && <div className="text-lg text-off-white">Nenhum repositório encontrado</div>}
 
                     <div className="flex flex-col gap-12 w-full pb-10">
-                        {repositories?.map((repo: any, index: number) => (
+                        {repositories ? repositories?.map((repo: AllRepositoriesProps, index: number) => (
                         <div key={index}>
 
                             <Repositories
@@ -91,7 +93,7 @@ export default function Profile(){
                             getCommits={getCommits}
                             />
                         </div>
-                        ))}
+                        )): <Loading/>}
                     
                     </div>
                 </div>
