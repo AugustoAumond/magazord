@@ -1,5 +1,5 @@
 import {create} from 'zustand';
-import { AllRepositoriesProps } from '../interfaces/interfaces';
+import { AllRepositoriesProps } from '../../interfaces/interfaces';
 
 interface RepositoriesStoreProps {
   repositories: AllRepositoriesProps[]
