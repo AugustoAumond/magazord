@@ -34,7 +34,6 @@ export default function Profile(){
             let name: string | null = getUserStorage();
             setUserName(JSON.parse(name ? name : ''))
         }
-        console.log(allRepositories, optionsType, optionsLanguage)
     }, [])
 
     useEffect(() => {
@@ -52,7 +51,6 @@ export default function Profile(){
             //BUSCA APENAS OS TYPES EXISTENTES NOS PROJETOS DO USUÁRIO
             if (!type.includes(e.owner.type) && e.owner.type){
                 type.push(e.owner.type);
-                console.log(e.owner.type)
             }
 
             setOptionsType(type);
