@@ -54,16 +54,16 @@ export default function CommitsComponent({
                                     <span className="font-bold">Autor:</span>{commit.commit.author.name}
                                 </div>
 
-                                <div className="flex gap-2 truncate  w-[47%]">
+                                <div className="flex gap-2 truncate w-[47%]">
                                     <span className="font-bold">Data:</span> {commit.commit.author.date}
                                 </div>
                             </div>
 
                             <div className="flex gap-2 truncate">
-                                <span className="font-bold">Hash: </span>{commit.commit.tree.sha}
+                                <span className="font-bold">Hash: </span> <div className="break-words">{commit.commit.tree.sha}</div>
                             </div>
 
-                            <div className="flex gap-2">
+                            <div className="flex gap-2 max-md:flex-col max-md:gap-0">
                                 <strong >Mensagem: </strong> {commit.commit.message}
                             </div>
                         </div> 
