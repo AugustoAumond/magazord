@@ -1,7 +1,7 @@
 import { BookMarked, Star } from "lucide-react"
 import { useEffect, useState } from "react"
 import { useAllRepositories, useUserStarred } from "../../../hooks/useFetch"
-import { RepositorieStore } from "../../../zustandStore/RepositorioStore"
+import { RepositorieStore } from "../../../store/zustandStore/RepositorioStore";
 
 interface SelectReposProps{
     userName: string
@@ -24,11 +24,13 @@ export default function SelectRepos({
         setStarred(searchRepo?.total_count);     
     }, [searchRepo])
 
+    //MOSTRA TODOS REPOSITÓRIOS
     function setAllRepo(){
         setRepositories(allRepositories);
         setSelected('repositories');
     }
 
+    //FILTRA PELOS RESPOSITÓRIOS MARCADOS
     function setRepoStarred(){
         setRepositories(searchRepo.items);
         setSelected('starred');

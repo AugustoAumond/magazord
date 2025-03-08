@@ -17,6 +17,7 @@ export default function Home(){
 
     const {data: popular} = useMostPopular(select, pageNumber);
 
+    //OBJETO USADO PARA ADICIONAR NO DROPDOWN DE FILTROS DOS REPOSITÓRIOS RELEVANTES
     const obj = [
         'Javascript',
         'Kotlin',

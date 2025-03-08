@@ -5,6 +5,7 @@ interface valueProps {
     items: [login: string]
 }
 
+//FUNÇÃO QUE COMPLEMENTA OS DADOS A SEREM MOSTRADOS EM TELA
 export async function SearchUsers(
     value: valueProps , 
     setLoading: (e: boolean) => void, 

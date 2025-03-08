@@ -10,6 +10,8 @@ import Repositories from "../../componentes/globals/repositories/repositories";
 import CommitsComponent from "../../componentes/profile/commitsComponent/commits";
 import Loading from "../../componentes/globals/loading/loading";
 import { AllRepositoriesProps } from "../../interfaces/interfaces";
+import { getUserStorage, setUserStorage } from "../../store/localStorage/userLocalStorage/userLocalStorage";
+
 
 
 export default function Profile(){
@@ -25,10 +27,11 @@ export default function Profile(){
     const {data: allRepositories} = useAllRepositories(userName);
     
     useEffect(()=>{
+        //CÓDIGO PARA CORRIGIR UM BUG, SE O USUÁRIO ATUALIZASSE A PÁGINA DE PERFIL FICAVA EM LOOP POIS NÃO HAVIA O USERNAME
         if (userName){
-            localStorage.setItem('userName', JSON.stringify(userName));
+            setUserStorage(userName);
         } else {
-            let name: string | null = localStorage.getItem('userName');
+            let name: string | null = getUserStorage();
             setUserName(JSON.parse(name ? name : ''))
         }
         console.log(allRepositories, optionsType, optionsLanguage)
@@ -40,12 +43,13 @@ export default function Profile(){
         let type = ['Type'];
 
         allRepositories?.forEach((e: AllRepositoriesProps) => {
+            //BUSCA APENAS AS LINGUAGEM DE PROGRAMAÇÃO DO USUÁRIO
             if (!language.includes(e.language) && e.language){
                 language.push(e.language);
                 
             }
 
-           
+            //BUSCA APENAS OS TYPES EXISTENTES NOS PROJETOS DO USUÁRIO
             if (!type.includes(e.owner.type) && e.owner.type){
                 type.push(e.owner.type);
                 console.log(e.owner.type)
@@ -58,6 +62,7 @@ export default function Profile(){
 
     }, [allRepositories]);
 
+    //ABRE A DIALOG DE COMMITS
     function getCommits(value: string){
         setOpenCommits(true);
         setNameRepo(value);

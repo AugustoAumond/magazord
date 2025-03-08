@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useMostPopularUsers, useSearchUser } from "../../hooks/useFetch";
 import { RepositorieStore } from "../../store/zustandStore/RepositorioStore";
 
@@ -9,6 +9,8 @@ import UserContainer from "../../componentes/searchUser/userContainer/userContai
 import {  Search } from "lucide-react";
 import { SearchUsers } from "./actions";
 import { UserProps } from "../../interfaces/interfaces";
+import Button from "../../library/button/button";
+import Input from "../../library/input/input";
 
 
 export default function SearchUser(){
@@ -29,12 +31,14 @@ export default function SearchUser(){
 
     useEffect(()=>{
         setTimeout(()=>{
+            //FUNÇÃO QUE BUSCAS OS DADOS DO USUÁRIO QUE SERÃO MOSTRADOS EM TELA
             SearchUsers(popUsers, setLoading, setCount, setUsers)
         }, 1000)
         
     }, [count])
 
     useEffect(()=>{
+        //VALIDAÇÃO PARA FAZER A REQUISIÇÃO APENAS APÓS O USUÁRIO TERMINAR DE DIGITAR, OU SEJA SÓ VAI ALTERAR O DADO DO SEARCH SE O USUÁRIO PARAR DE DIGITAR POR 400MS
         const timeout = setTimeout(() => {
             setSearch(searchText);
             setValidation(true);
@@ -45,6 +49,7 @@ export default function SearchUser(){
         };
     }, [searchText])
 
+    //FUNÇÃO DE PESQUISAR COM A TECLA ENTER
     function setSearchEnter(value: React.KeyboardEvent<HTMLInputElement>){
         if (value.key === 'Enter') {
             SearchUsers(searchUser, setLoading, setCount, setUsers);
@@ -65,17 +70,23 @@ export default function SearchUser(){
                         <div className="flex items-center w-full gap-5 max-md:w-full">
                             <Search className="max-md:hidden"/>
 
-                            <input value={searchText} onKeyDown={setSearchEnter} onChange={(e: ChangeEvent<HTMLInputElement>) => setSearchText(e.currentTarget.value)} placeholder="Buscar usuário" className="p-2 flex flex-1 border-0 border-b-2" type="text" />
+                            <Input 
+                            value={searchText} 
+                            setEnter={setSearchEnter} 
+                            onChange={setSearchText} />
 
-                            <button disabled={!validation} onClick={() => SearchUsers(searchUser, setLoading, setCount, setUsers)} className="p-2 px-4 text-sm bg-gradient-to-r from-[#0056A6] to-[#0587FF] rounded-2xl text-white hover:opacity-80 cursor-pointer min-w-[125px] ">
-                                Buscar Usuário
-                            </button>
+                            <div onClick={()=>  SearchUsers(searchUser, setLoading, setCount, setUsers)}>
+                                <Button disable={validation} onClick={() => console.log('clicou')} text=" Buscar Usuário">
+
+                                </Button>
+                            </div>
+                            
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div className="w-full">
+            <div className="w-full flex flex-col items-center">
                 {(users && !loading )? users?.map((user: UserProps, index: number)=>(
                     <div className="flex items-center w-full max-w-[1080px] gap-5 p-10 border-off-white rounded-lg" key={index}>
                         <UserContainer 

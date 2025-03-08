@@ -1,9 +1,10 @@
 import { Search } from "lucide-react";
 import CustomSelect from "../../../library/select/select";
-import { ChangeEvent, useState } from "react";
+import { useState } from "react";
 import { useAllRepositories, } from "../../../hooks/useFetch";
 import { RepositorieStore } from "../../../store/zustandStore/RepositorioStore";
 import { AllRepositoriesProps } from "../../../interfaces/interfaces";
+import Input from "../../../library/input/input";
 
 interface SearchComponentProps{
     userName: string
@@ -25,6 +26,7 @@ export default function SearchRepositorie({
 
     const {data: allRepositories} = useAllRepositories(userName);
 
+    //FUNÇÃO PARA FILTRAR OS TIPOS
     function FilterLanguage(value: string){
         let items: any = [];
             setSelectedType('Type');
@@ -39,6 +41,7 @@ export default function SearchRepositorie({
             
     }
 
+    //FUNÇÃO PARA FILTRAR AS LINGUAGENS DE PROGRAMAÇÃO
     function FilterType(value: string){
         let items: any = [];
         allRepositories?.forEach((item: AllRepositoriesProps) => {
@@ -51,12 +54,14 @@ export default function SearchRepositorie({
         setRepositories(value !== 'Type' ? items : allRepositories);
     }
 
+    //BUSCAR COM A TECLA ENTER
     function setSearchEnter(value: React.KeyboardEvent<HTMLInputElement>){
         if (value.key === 'Enter') {
             SearchAction();
         }
     };
 
+    //FILTRO PARA BUSCAR OS REPOSITÓRIOS DIGITADOS NO INPUT
     function SearchAction (){
         let items: any = [];
         allRepositories.forEach((item: AllRepositoriesProps)=>{
@@ -78,7 +83,7 @@ export default function SearchRepositorie({
                     <Search size={24} color="#989898"/>
                 </button>
                 
-                <input value={search} onKeyDown={setSearchEnter} onChange={(e: ChangeEvent<HTMLInputElement>) => setSearch(e.currentTarget.value)} className="flex flex-1 w-full px-5 py-2 focus:outline-none max-lg: text-xs" placeholder="Pesquisar Repositório" type="text" />
+                <Input value={search} setEnter={setSearchEnter} onChange={setSearch}/>
             </div>
             
             <div className="flex w-64 gap-6 max-md:w-[60%] max-md:justify-center">
