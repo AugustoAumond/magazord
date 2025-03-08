@@ -23,7 +23,6 @@ export default function SearchUser(){
 
     const [users, setUsers] = useState<UserProps[]>();
 
- 
     const {data: searchUser} = useSearchUser(search);
     const {data: popUsers} = useMostPopularUsers();
 
@@ -75,15 +74,17 @@ export default function SearchUser(){
                 </div>
             </div>
 
-            {(users && !loading )? users?.map((user: UserProps, index: number)=>(
-                <div className="flex items-center w-full max-w-[1080px] gap-5 p-10 border-off-white rounded-lg" key={index}>
-                    <UserContainer 
-                    user={user} 
-                    setUserName={setUserName}
-                    />
-                </div>
-              
-            )) : (loading && <Loading/>)}
+            <div className="w-full">
+                {(users && !loading )? users?.map((user: UserProps, index: number)=>(
+                    <div className="flex items-center w-full max-w-[1080px] gap-5 p-10 border-off-white rounded-lg" key={index}>
+                        <UserContainer 
+                        user={user} 
+                        setUserName={setUserName}
+                        />
+                    </div>
+                            
+                )) : (loading && <Loading/>)}
+            </div>
         </div>
     )
 }

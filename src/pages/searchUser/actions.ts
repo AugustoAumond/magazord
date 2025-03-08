@@ -23,6 +23,10 @@ export async function SearchUsers(
         return response.data;
     });
 
+    setTimeout(()=>{
+        setLoading(false);
+    }, 10000)
+
     // Aguarde todas as promessas e armazene os resultados em listOfUsers
     Promise.all(userPromises)
     .then((usersData) => {
@@ -30,6 +34,7 @@ export async function SearchUsers(
         return setUsers([...usersData]);
     })
     .catch(() => {
+        setLoading(false);
         //console.error("Erro ao buscar dados do usuário:", error);
     });
 }

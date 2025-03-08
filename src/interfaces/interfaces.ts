@@ -7,6 +7,9 @@ export interface AllRepositoriesProps {
     stargazers_count: number
     git_url: string
     topics: string[]
+    owner: {
+        type: string
+    }
 }
 
 export interface UserProps {

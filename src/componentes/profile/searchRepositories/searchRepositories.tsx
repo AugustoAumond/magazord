@@ -3,15 +3,18 @@ import CustomSelect from "../../../library/select/select";
 import { ChangeEvent, useState } from "react";
 import { useAllRepositories, } from "../../../hooks/useFetch";
 import { RepositorieStore } from "../../../zustandStore/RepositorioStore";
-import { optionsType, optionsLanguage } from "../../../pages/profile";
 import { AllRepositoriesProps } from "../../../interfaces/interfaces";
 
 interface SearchComponentProps{
     userName: string
+    optionsLanguage: string[]
+    optionsType: string[]
 }
 
 export default function SearchRepositorie({
-    userName
+    userName,
+    optionsLanguage,
+    optionsType
 }: SearchComponentProps){
     const [search, setSearch] = useState('');
 
@@ -41,7 +44,7 @@ export default function SearchRepositorie({
         allRepositories?.forEach((item: AllRepositoriesProps) => {
             setSelectedLanguage('Language');
             setSearch('');
-            if (item.visibility === value) {
+            if (item.owner.type === value) {
                 items.push(item);
             };
         })

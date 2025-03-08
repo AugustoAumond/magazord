@@ -11,11 +11,11 @@ import CommitsComponent from "../../componentes/profile/commitsComponent/commits
 import Loading from "../../componentes/globals/loading/loading";
 import { AllRepositoriesProps } from "../../interfaces/interfaces";
 
-export const optionsType: string[] = ['Type'];
-export const optionsLanguage: string[] = ['Language'];
 
 export default function Profile(){
-    const {setRepositories, repositories, userName} = RepositorieStore();
+    const {setRepositories, repositories, userName, setUserName} = RepositorieStore();
+    const [optionsType, setOptionsType] = useState<string[]>([]);
+    const [optionsLanguage, setOptionsLanguage] = useState<string[]>([]);
 
     const [nameRepo, setNameRepo] = useState('');
 
@@ -24,19 +24,35 @@ export default function Profile(){
     const {data: user} = useUser(userName);
     const {data: allRepositories} = useAllRepositories(userName);
     
+    useEffect(()=>{
+        if (userName){
+            localStorage.setItem('userName', JSON.stringify(userName));
+        } else {
+            let name: string | null = localStorage.getItem('userName');
+            setUserName(JSON.parse(name ? name : ''))
+        }
+        console.log(allRepositories, optionsType, optionsLanguage)
+    }, [])
 
     useEffect(() => {
         setRepositories(allRepositories);     
-        
+        let language = ['Language'];
+        let type = ['Type'];
+
         allRepositories?.forEach((e: AllRepositoriesProps) => {
-            if (!optionsLanguage.includes(e.language) && e.language){
-                optionsLanguage.push(e.language);
-                console.log(e.language)
+            if (!language.includes(e.language) && e.language){
+                language.push(e.language);
+                
             }
 
-            if (!optionsType.includes(e.visibility) && e.visibility){
-                optionsType.push(e.visibility);
+           
+            if (!type.includes(e.owner.type) && e.owner.type){
+                type.push(e.owner.type);
+                console.log(e.owner.type)
             }
+
+            setOptionsType(type);
+            setOptionsLanguage(language);
 
         });
 
@@ -53,7 +69,7 @@ export default function Profile(){
 
     return (
         <div className="flex flex-col items-center w-full gap-20">
-            <Header page="Perfil"/>
+            <Header page={user?.name}/>
 
             {openCommits && 
                 <CommitsComponent
@@ -75,6 +91,8 @@ export default function Profile(){
 
                     <SearchRepositorie
                     userName={userName}
+                    optionsType={optionsType}
+                    optionsLanguage={optionsLanguage}
                     />
 
                     {(repositories !== undefined && repositories[0] === undefined) && <div className="text-lg text-off-white">Nenhum repositório encontrado</div>}

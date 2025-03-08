@@ -26,7 +26,11 @@ export default function Header({
                 <Link to={'/searchUser'}>
                     <div className={`flex flex-col items-center text-off-white-100 ${page === 'Buscar Usuário' && 'underline'} max-md:text-sm`}>
                         <UserSearch size={20}/>
-                        Buscar Usuário                    
+
+                        <div className="w-full text-center">
+                            Buscar Usuário    
+                        </div>
+                                        
                     </div>
                 </Link>
             </div>

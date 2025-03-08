@@ -11,7 +11,7 @@ export default function User({
     userName
 }: UserProps){
     const {data: user} = useUser(userName);
-    const [open, setOpen] = useState(false);
+    const [open, setOpen] = useState(true);
 
 
     window.addEventListener('resize',(()=>{
