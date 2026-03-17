@@ -43,16 +43,26 @@ export default function Repositories({
         </div>
 
         <div className="flex gap-8 max-md:text-xs">
-            <div className="flex items-center gap-2.5">
+            <div className="relative group flex items-center gap-2.5">
                 <Star fill="black" size={16} color="black"/>
 
                 {stargazers_count}
+
+                <div className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2
+                whitespace-nowrap bg-black text-white text-xs px-2 py-1
+                rounded opacity-0 group-hover:opacity-100
+                transition duration-200 pointer-events-none">Usuários que aprovam a aplicação</div>
             </div>
 
-            <div className="flex items-center gap-2.5">
+            <div className="relative group  flex items-center gap-2.5">
                 <GitFork size={16} color="black"/>
 
                 {forks_count}
+
+                <div className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2
+                whitespace-nowrap bg-black text-white text-xs px-2 py-1
+                rounded opacity-0 group-hover:opacity-100
+                transition duration-200 pointer-events-none">Quantidade de forks da aplicação</div>
             </div>
 
         </div>

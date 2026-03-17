@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useMostPopularUsers, useSearchUser } from "../../hooks/useFetch";
 import { RepositorieStore } from "../../store/zustandStore/RepositorioStore";
 
@@ -11,6 +11,8 @@ import { SearchUsers } from "./actions";
 import { UserProps } from "../../interfaces/interfaces";
 import Button from "../../library/button/button";
 import Input from "../../library/input/input";
+
+import { debounce } from 'lodash-es';
 
 
 export default function SearchUser(){
@@ -29,6 +31,20 @@ export default function SearchUser(){
     const {data: searchUser} = useSearchUser(search);
     const {data: popUsers} = useMostPopularUsers();
 
+
+    const debouncedSearch = useMemo(() => {
+        return debounce((value: string) => {
+            setSearch(value);
+            setValidation(true);
+        }, 400);
+    }, []);
+
+    const handleChange = (e: string) => {
+        const value = e;
+        setSearchText(value); // mantém o input controlado
+        debouncedSearch(value);
+    };
+
     useEffect(()=>{
         setTimeout(()=>{
             //FUNÇÃO QUE BUSCAS OS DADOS DO USUÁRIO QUE SERÃO MOSTRADOS EM TELA
@@ -37,24 +53,25 @@ export default function SearchUser(){
         
     }, [count])
 
-    useEffect(()=>{
-        //VALIDAÇÃO PARA FAZER A REQUISIÇÃO APENAS APÓS O USUÁRIO TERMINAR DE DIGITAR, OU SEJA SÓ VAI ALTERAR O DADO DO SEARCH SE O USUÁRIO PARAR DE DIGITAR POR 400MS
-        const timeout = setTimeout(() => {
-            setSearch(searchText);
-            setValidation(true);
-        }, 400); 
-    
+    useEffect(() => {
         return () => {
-            clearTimeout(timeout);
+            debouncedSearch.cancel();
         };
-    }, [searchText])
+    }, [debouncedSearch]);
+
+    useEffect(() => {
+        if (!search) return;
+
+        SearchUsers(searchUser, setLoading, setCount, setUsers);
+    }, [searchUser]);
+
 
     //FUNÇÃO DE PESQUISAR COM A TECLA ENTER
-    function setSearchEnter(value: React.KeyboardEvent<HTMLInputElement>){
-        if (value.key === 'Enter') {
-            SearchUsers(searchUser, setLoading, setCount, setUsers);
+    function setSearchEnter(e: React.KeyboardEvent<HTMLInputElement>) {
+        if (e.key === 'Enter') {
+            debouncedSearch.flush(); // executa imediatamente
         }
-    };
+    }
 
     return (
         <div className="flex items-centerflex flex-col items-center w-full gap-10 pb-10">
@@ -73,7 +90,7 @@ export default function SearchUser(){
                             <Input 
                             value={searchText} 
                             setEnter={setSearchEnter} 
-                            onChange={setSearchText} />
+                            onChange={handleChange} />
 
                             <div onClick={()=>  SearchUsers(searchUser, setLoading, setCount, setUsers)}>
                                 <Button disable={validation} onClick={() => console.log('clicou')} text=" Buscar Usuário">
@@ -88,7 +105,7 @@ export default function SearchUser(){
 
             <div className="w-full flex flex-col items-center">
                 {(users && !loading )? users?.map((user: UserProps, index: number)=>(
-                    <div className="flex items-center w-full max-w-[1080px] gap-5 p-10 border-off-white rounded-lg" key={index}>
+                    <div className="flex items-center w-full max-w-[1080px] gap-5 p-5 border-off-white rounded-lg" key={index}>
                         <UserContainer 
                         user={user} 
                         setUserName={setUserName}
