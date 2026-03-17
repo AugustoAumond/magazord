@@ -28,6 +28,8 @@ export default function Home(){
         'SQL',
     ]
 
+    console.log('teste')
+
     useEffect(()=>{
         setPageNumber(1);
     }, [select])
