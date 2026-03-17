@@ -1,7 +1,6 @@
 import { Book, UserCheck, Users } from "lucide-react";
 import { Link } from "react-router-dom";
 import { UserProps } from "../../../interfaces/interfaces";
-import { useState } from "react";
 
 interface userContainerProps {
     setUserName: (e: string) => void
@@ -12,10 +11,6 @@ export default function UserContainer({
     setUserName,
     user
 }: userContainerProps){
-    const [tooltipFollowers, setFallowers] = useState(false);
-    const [tooltipFollowing, setFallowing] = useState(false);
-    const [tooltipRepoPublic, setRepoPublic] = useState(false);
-
     return (
         <div className="flex items-center w-[100%] max-w-[1080px] gap-5  border-1 border-off-white hover:border-off-white/50 rounded-lg  max-md:bg-off-white-bgNumber">
         <Link to={'/profile'} onClick={()=> setUserName(user.login)} className="flex items-center w-full gap-5 p-5 max-md:flex-col max-md:" >
